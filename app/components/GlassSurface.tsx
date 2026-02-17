@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useId } from 'react';
+import { useEffect, useState, useRef, useId, RefObject } from 'react';
 import './GlassSurface.css';
 
 interface GlassSurfaceProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -56,15 +56,15 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
 
   const [svgSupported, setSvgSupported] = useState(false);
 
-  const containerRef = useRef(null);
-  const feImageRef = useRef(null);
-  const redChannelRef = useRef(null);
-  const greenChannelRef = useRef(null);
-  const blueChannelRef = useRef(null);
-  const gaussianBlurRef = useRef(null);
+  const glassContainerRef = useRef<HTMLDivElement>(null);
+  const feImageRef = useRef<SVGFEImageElement>(null);
+  const redChannelRef = useRef<SVGFEDisplacementMapElement>(null);
+  const greenChannelRef = useRef<SVGFEDisplacementMapElement>(null);
+  const blueChannelRef = useRef<SVGFEDisplacementMapElement>(null);
+  const gaussianBlurRef = useRef<SVGFEGaussianBlurElement>(null);
 
   const generateDisplacementMap = () => {
-    const rect = containerRef.current?.getBoundingClientRect();
+    const rect = glassContainerRef.current?.getBoundingClientRect();
     const actualWidth = rect?.width || 400;
     const actualHeight = rect?.height || 200;
     const edgeSize = Math.min(actualWidth, actualHeight) * (borderWidth * 0.5);
@@ -129,27 +129,13 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   ]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!glassContainerRef.current) return;
 
     const resizeObserver = new ResizeObserver(() => {
       setTimeout(updateDisplacementMap, 0);
     });
 
-    resizeObserver.observe(containerRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      setTimeout(updateDisplacementMap, 0);
-    });
-
-    resizeObserver.observe(containerRef.current);
+    resizeObserver.observe(glassContainerRef.current);
 
     return () => {
       resizeObserver.disconnect();
@@ -194,7 +180,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
 
   return (
     <div
-      ref={containerRef}
+      ref={glassContainerRef as any}
       className={`glass-surface ${svgSupported ? 'glass-surface--svg' : 'glass-surface--fallback'} ${className}`}
       style={containerStyle}
       {...props}
