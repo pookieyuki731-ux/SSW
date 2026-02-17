@@ -117,10 +117,9 @@ export function AdminLapForm({
                 {...register("stageLevel")}
                 className="input-dark w-full rounded p-2.5 appearance-none cursor-pointer"
             >
-                <option value="Stage 1">Stage 1 (Street)</option>
-                <option value="Stage 2">Stage 2 (Club)</option>
-                <option value="Stage 3">Stage 3 (Pro)</option>
-                <option value="Unlimited">Unlimited (Open)</option>
+                <option value="Stage 1">Stage 1 (Stock)</option>
+                <option value="Stage 2">Stage 2 (A+)</option>
+                <option value="Stage 3">Stage 3 (A++)</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-500">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>

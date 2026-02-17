@@ -26,6 +26,12 @@ interface LeaderboardTableProps {
   isAdmin: boolean
 }
 
+export const STAGE_LABELS: Record<string, string> = {
+  "Stage 1": "Stage 1 (Stock)",
+  "Stage 2": "Stage 2 (A+)",
+  "Stage 3": "Stage 3 (A++)",
+}
+
 export function LeaderboardTable({ initialEntries, isAdmin }: LeaderboardTableProps) {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
@@ -48,7 +54,7 @@ export function LeaderboardTable({ initialEntries, isAdmin }: LeaderboardTablePr
       racingAlias: entry.racingAlias,
       crewName: entry.crewName || "",
       carName: entry.carName,
-      stageLevel: (entry.stageLevel as "Stage 2" | "Stage 3" | "Unlimited") || "Stage 2",
+      stageLevel: (entry.stageLevel as "Stage 1" | "Stage 2" | "Stage 3") || "Stage 2",
       lapTimeDisplay: entry.lapTimeDisplay, // Pass raw string, validation will check regex
       clipUrl: entry.clipUrl || "",
       notes: entry.notes || "",
@@ -182,7 +188,7 @@ export function LeaderboardTable({ initialEntries, isAdmin }: LeaderboardTablePr
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-sm text-center text-gray-400 hidden md:table-cell">
                       <span className="px-2 py-1 rounded-full bg-gray-800 border border-gray-700 text-xs text-gray-300">
-                        {entry.stageLevel}
+                        {STAGE_LABELS[entry.stageLevel] || entry.stageLevel}
                       </span>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-mono font-bold text-red-500 tracking-wide">
