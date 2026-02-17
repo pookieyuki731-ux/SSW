@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Track {
+  id          String    @id @default(cuid())
+  name        String
+  location    String?
+  isActive    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  entries     LapEntry[]
+}
+
+model LapEntry {
+  id              String      @id @default(cuid())
+  trackId         String
+  track           Track       @relation(fields: [trackId], references: [id])
+  racingAlias     String
+  crewName        String?
+  carName         String
+  stageLevel      String      // "Stage2" | "Stage3"
+  lapTimeMs       Int
+  lapTimeDisplay  String
+  clipUrl         String?
+  verifiedAt      DateTime?
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([trackId, lapTimeMs])
+  @@index([trackId, racingAlias])
+}
+
+// Enum removed for SQLite compatibility
