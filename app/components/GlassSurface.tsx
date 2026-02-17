@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useId } from 'react';
 import './GlassSurface.css';
 
-interface GlassSurfaceProps {
+interface GlassSurfaceProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   width?: number | string;
   height?: number | string;
