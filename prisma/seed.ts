@@ -4,7 +4,7 @@ import 'dotenv/config'
 const prisma = new PrismaClient()
 
 async function main() {
-  const defaultTrackName = 'DOUBLE TROUBLE'
+  const defaultTrackName = 'MORNINGWOOD'
 
   console.log('Using DATABASE_URL:', process.env.DATABASE_URL)
 

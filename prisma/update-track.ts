@@ -1,5 +1,6 @@
 
 import { PrismaClient } from '@prisma/client'
+import 'dotenv/config'
 
 const prisma = new PrismaClient()
 
@@ -8,26 +9,30 @@ async function main() {
     where: { isActive: true },
   })
 
+const TARGET_TRACK_NAME = 'MORNINGWOOD'
+
   if (activeTrack) {
-    if (activeTrack.name === 'DOUBLE TROUBLE') {
-        console.log('Track is already updated to DOUBLE TROUBLE')
+    if (activeTrack.name === TARGET_TRACK_NAME) {
+      console.log(`Track is already updated to ${TARGET_TRACK_NAME}`)
     } else {
-        await prisma.track.update({
+      await prisma.track.update({
         where: { id: activeTrack.id },
-        data: { name: 'DOUBLE TROUBLE' },
-        })
-        console.log(`Updated track ${activeTrack.id} from '${activeTrack.name}' to 'DOUBLE TROUBLE'`)
+        data: { name: TARGET_TRACK_NAME },
+      })
+      console.log(
+        `Updated track ${activeTrack.id} from '${activeTrack.name}' to '${TARGET_TRACK_NAME}'`
+      )
     }
   } else {
     // If no active track, create one
     await prisma.track.create({
       data: {
-        name: 'DOUBLE TROUBLE',
+        name: TARGET_TRACK_NAME,
         isActive: true,
         location: 'Unknown',
       },
     })
-    console.log('Created new track: DOUBLE TROUBLE')
+    console.log(`Created new track: ${TARGET_TRACK_NAME}`)
   }
 }
 
